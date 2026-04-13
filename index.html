@@ -1,115 +1,246 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Ekspert Discord & Cyberbezpieczeństwo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        body { background-color: #0f0f0f; color: #ffffff; }
-        .accent-gradient { background: linear-gradient(90deg, #f59e0b, #ea580c); }
-        .text-accent { color: #f59e0b; }
-        .border-accent { border-color: #f59e0b; }
-        .hover-scale { transition: transform 0.3s ease; }
-        .hover-scale:hover { transform: scale(1.05); }
+        :root {
+            --accent: #f59e0b;
+            --accent-glow: rgba(245, 158, 11, 0.3);
+        }
+
+        body { 
+            background-color: #050505; 
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Tło w kratkę (Cyber Grid) */
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        .accent-gradient { 
+            background: linear-gradient(135deg, #f59e0b, #ea580c); 
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .text-accent { color: #f59e0b; text-shadow: 0 0 10px var(--accent-glow); }
+        
+        /* Animowana karta */
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Pływające kółka w tle */
+        .blob {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            filter: blur(100px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.15;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(100%, 50%); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
     </style>
 </head>
 <body class="font-sans antialiased">
 
-    <header class="h-screen flex flex-col justify-center items-center text-center px-4">
-        <h1 class="text-5xl md:text-7xl font-bold mb-4">Portfolio <span class="text-accent">Eksperckie</span></h1>
-        <p class="text-xl text-gray-400 max-w-2xl">Specjalistyczne wsparcie w zakresie infrastruktury Discord, automatyzacji oraz bezpieczeństwa cyfrowego.</p>
-        <div class="mt-8 accent-gradient p-1 rounded-full">
-            <a href="#contact" class="bg-black px-8 py-3 rounded-full block hover:bg-transparent transition">Skontaktuj się</a>
+    <div class="fixed inset-0 grid-bg z-[-1]"></div>
+    <div class="blob"></div>
+
+    <nav class="fixed w-full z-50 px-8 py-6 flex justify-between items-center bg-black/50 backdrop-blur-md border-b border-white/5">
+        <div class="text-2xl font-black tracking-tighter">JARVIS<span class="text-accent">.</span></div>
+        <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-gray-400">
+            <a href="#" class="hover:text-accent transition">Start</a>
+            <a href="#services" class="hover:text-accent transition">Usługi</a>
+            <a href="#projects" class="hover:text-accent transition">Projekty</a>
+            <a href="#contact" class="hover:text-accent transition">Kontakt</a>
+        </div>
+    </nav>
+
+    <header class="relative h-screen flex flex-col justify-center items-center text-center px-4 overflow-hidden">
+        <div data-aos="zoom-out" data-aos-duration="1500" class="absolute inset-0 flex items-center justify-center opacity-20">
+            <i class="fab fa-discord text-[40rem] text-white/5 rotate-12"></i>
+        </div>
+        
+        <h1 data-aos="fade-up" class="text-6xl md:text-8xl font-black mb-6 tracking-tight">
+            Portfolio <span class="text-accent italic">Eksperckie</span>
+        </h1>
+        <p data-aos="fade-up" data-aos-delay="200" class="text-xl text-gray-400 max-w-2xl leading-relaxed">
+            Projektowanie bezpiecznych ekosystemów na Discordzie. Łączę zaawansowaną automatyzację z nieprzeniknionym cyberbezpieczeństwem.
+        </p>
+        
+        <div data-aos="fade-up" data-aos-delay="400" class="mt-10 flex gap-4">
+            <a href="#contact" class="accent-gradient px-10 py-4 rounded-full font-bold text-black hover:scale-105 transition transform">
+                Zacznijmy współpracę
+            </a>
+            <a href="#projects" class="px-10 py-4 rounded-full border border-white/20 hover:bg-white/5 transition">
+                Moje prace
+            </a>
         </div>
     </header>
 
-    <section class="py-20 px-8 bg-[#161616]">
+    <section id="services" class="py-32 px-8 relative">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold mb-12 text-center">W czym się <span class="text-accent">specjalizuję</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="p-6 border border-gray-800 rounded-xl hover-scale bg-[#1a1a1a]">
-                    <i class="fab fa-discord text-4xl text-accent mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Serwery Discord</h3>
-                    <p class="text-gray-400">Kompleksowa konfiguracja i optymalizacja społeczności.</p>
+            <div class="mb-20 text-center">
+                <h2 data-aos="fade-right" class="text-4xl font-bold mb-4">Moje <span class="text-accent">Operacje</span></h2>
+                <div class="h-1 w-20 accent-gradient mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div data-aos="fade-up" data-aos-delay="100" class="glass-card p-8 rounded-2xl group">
+                    <div class="w-16 h-16 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent transition">
+                        <i class="fab fa-discord text-3xl text-accent group-hover:text-black"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Architektura Discord</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Projektowanie struktur serwerowych, które żyją i angażują od pierwszej sekundy.</p>
                 </div>
-                <div class="p-6 border border-gray-800 rounded-xl hover-scale bg-[#1a1a1a]">
-                    <i class="fas fa-robot text-4xl text-accent mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Boty Discord</h3>
-                    <p class="text-gray-400">Tworzenie i wdrażanie autorskich rozwiązań automatyzujących.</p>
+
+                <div data-aos="fade-up" data-aos-delay="200" class="glass-card p-8 rounded-2xl group">
+                    <div class="w-16 h-16 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent transition">
+                        <i class="fas fa-code text-3xl text-accent group-hover:text-black"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Custom Bots</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Automatyzacja procesów za pomocą autorskich botów pisanych w najwyższym standardzie.</p>
                 </div>
-                <div class="p-6 border border-gray-800 rounded-xl hover-scale bg-[#1a1a1a]">
-                    <i class="fas fa-chart-line text-4xl text-accent mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Marketing</h3>
-                    <p class="text-gray-400">Strategie wzrostu i budowanie zaangażowania użytkowników.</p>
+
+                <div data-aos="fade-up" data-aos-delay="300" class="glass-card p-8 rounded-2xl group">
+                    <div class="w-16 h-16 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent transition">
+                        <i class="fas fa-shield-halved text-3xl text-accent group-hover:text-black"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Cyber-Security</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Audyty bezpieczeństwa i systemy anty-raid, które chronią Twoją społeczność 24/7.</p>
                 </div>
-                <div class="p-6 border border-gray-800 rounded-xl hover-scale bg-[#1a1a1a]">
-                    <i class="fas fa-shield-alt text-4xl text-accent mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Cyberbezpieczeństwo</h3>
-                    <p class="text-gray-400">Audyty bezpieczeństwa i ochrona przed atakami.</p>
+
+                <div data-aos="fade-up" data-aos-delay="400" class="glass-card p-8 rounded-2xl group">
+                    <div class="w-16 h-16 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent transition">
+                        <i class="fas fa-bolt text-3xl text-accent group-hover:text-black"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Skalowanie</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Strategie marketingowe pozwalające na szybki i organiczny wzrost serwera.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-20 px-8">
+    <section id="projects" class="py-32 px-8 bg-white/[0.02]">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold mb-12 text-center">Wybrane <span class="text-accent">realizacje</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="#" class="block p-8 border-l-4 border-accent bg-[#1a1a1a] hover:bg-[#222] transition">
-                    <h3 class="text-xl font-bold">OxxeellEnterprises</h3>
-                    <p class="text-sm text-gray-400 mt-2">Kliknij, aby zobaczyć serwer</p>
+            <h2 data-aos="fade-left" class="text-4xl font-bold mb-16">Ostatnie <span class="text-accent">Wdrożenia</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <a href="#" data-aos="zoom-in" class="relative group overflow-hidden rounded-2xl aspect-video glass-card flex items-center justify-center border-l-4 border-accent">
+                    <div class="text-center z-10">
+                        <h3 class="text-2xl font-black">OXXEELL</h3>
+                        <p class="text-accent text-sm opacity-0 group-hover:opacity-100 transition">Zobacz projekt</p>
+                    </div>
                 </a>
-                <a href="#" class="block p-8 border-l-4 border-accent bg-[#1a1a1a] hover:bg-[#222] transition">
-                    <h3 class="text-xl font-bold">Agencja Social Prestige</h3>
-                    <p class="text-sm text-gray-400 mt-2">Kliknij, aby zobaczyć serwer</p>
+                <a href="#" data-aos="zoom-in" data-aos-delay="100" class="relative group overflow-hidden rounded-2xl aspect-video glass-card flex items-center justify-center border-l-4 border-accent">
+                    <div class="text-center z-10">
+                        <h3 class="text-2xl font-black">SOCIAL PRESTIGE</h3>
+                        <p class="text-accent text-sm opacity-0 group-hover:opacity-100 transition">Zobacz projekt</p>
+                    </div>
                 </a>
-                <a href="#" class="block p-8 border-l-4 border-accent bg-[#1a1a1a] hover:bg-[#222] transition">
-                    <h3 class="text-xl font-bold">Centrum Zgłoszeń</h3>
-                    <p class="text-sm text-gray-400 mt-2">Kliknij, aby zobaczyć serwer</p>
+                <a href="#" data-aos="zoom-in" data-aos-delay="200" class="relative group overflow-hidden rounded-2xl aspect-video glass-card flex items-center justify-center border-l-4 border-accent">
+                    <div class="text-center z-10">
+                        <h3 class="text-2xl font-black">CENTRUM ZGŁOSZEŃ</h3>
+                        <p class="text-accent text-sm opacity-0 group-hover:opacity-100 transition">Zobacz projekt</p>
+                    </div>
                 </a>
             </div>
         </div>
     </section>
 
-    <section class="py-20 px-8 bg-[#161616]">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-8 text-center text-accent">Godziny dostępności</h2>
-            <div class="overflow-hidden rounded-xl border border-gray-800">
-                <table class="w-full text-left">
-                    <tr class="border-b border-gray-800">
-                        <td class="p-4 font-semibold">Poniedziałek - Piątek</td>
-                        <td class="p-4 text-gray-400 text-right">17:00 - 19:00</td>
-                    </tr>
-                    <tr class="border-b border-gray-800">
-                        <td class="p-4 font-semibold">Sobota</td>
-                        <td class="p-4 text-gray-400 text-right">14:00 - 21:00</td>
-                    </tr>
-                    <tr>
-                        <td class="p-4 font-semibold">Niedziela</td>
-                        <td class="p-4 text-gray-400 text-right">15:00 - 19:00</td>
-                    </tr>
+    <section class="py-32 px-8">
+        <div class="max-w-3xl mx-auto" data-aos="fade-up">
+            <h2 class="text-center text-3xl font-bold mb-12 italic">System Uptime (Dostępność)</h2>
+            <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-white/5 text-accent uppercase text-xs tracking-widest">
+                            <th class="p-6 text-left">Dzień tygodnia</th>
+                            <th class="p-6 text-right">Status / Godziny</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                            <td class="p-6 font-medium">Poniedziałek — Piątek</td>
+                            <td class="p-6 text-right font-mono">17:00 — 19:00</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                            <td class="p-6 font-medium">Sobota</td>
+                            <td class="p-6 text-right font-mono">14:00 — 21:00</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-6 font-medium">Niedziela</td>
+                            <td class="p-6 text-right font-mono text-accent">15:00 — 19:00</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-20 px-8">
-        <div class="max-w-2xl mx-auto">
-            <h2 class="text-3xl font-bold mb-8 text-center">Napisz do <span class="text-accent">mnie</span></h2>
-            <form action="https://formspree.io/f/YOUR_ID" method="POST" class="space-y-4">
-                <input type="text" name="name" placeholder="Twoje Imię" class="w-full p-4 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-accent">
-                <input type="email" name="email" placeholder="Twój E-mail" class="w-full p-4 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-accent">
-                <textarea name="message" rows="5" placeholder="W czym mogę pomóc?" class="w-full p-4 bg-[#1a1a1a] border border-gray-800 rounded-lg focus:outline-none focus:border-accent"></textarea>
-                <button type="submit" class="w-full accent-gradient py-4 rounded-lg font-bold hover:opacity-90 transition">Wyślij wiadomość</button>
+    <section id="contact" class="py-32 px-8">
+        <div class="max-w-4xl mx-auto glass-card p-12 rounded-3xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10">
+                <i class="fas fa-paper-plane text-8xl -rotate-12"></i>
+            </div>
+            
+            <h2 class="text-4xl font-bold mb-8">Inicjuj <span class="text-accent">Kontakt</span></h2>
+            <form action="#" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <input type="text" placeholder="Twoja Tożsamość" class="w-full p-4 bg-black/50 border border-white/10 rounded-xl focus:border-accent transition outline-none">
+                    <input type="email" placeholder="Adres E-mail" class="w-full p-4 bg-black/50 border border-white/10 rounded-xl focus:border-accent transition outline-none">
+                </div>
+                <textarea rows="4" placeholder="Opisz swoje wymagania..." class="w-full p-4 bg-black/50 border border-white/10 rounded-xl focus:border-accent transition outline-none"></textarea>
+                <button type="submit" class="md:col-span-2 accent-gradient py-5 rounded-xl font-black text-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition transform">
+                    Wyślij zapytanie
+                </button>
             </form>
         </div>
     </section>
 
-    <footer class="py-10 text-center text-gray-600 border-t border-gray-900">
-        <p>&copy; 2026 Jarvis Interface Implementation. Wszystkie prawa zastrzeżone.</p>
+    <footer class="py-12 text-center text-gray-500 border-t border-white/5">
+        <p class="text-sm tracking-widest">© 2026 JARVIS INTERFACE • SECURED PROTOCOL</p>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+    </script>
 </body>
 </html>
