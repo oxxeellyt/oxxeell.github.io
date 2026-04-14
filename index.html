@@ -48,49 +48,23 @@
             background: rgba(35, 35, 35, 0.8);
         }
 
-        /* --- Style Kalendarza --- */
-        .day-box {
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .calendar-container {
             position: relative;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        
-        .day-box:hover { background: rgba(245, 158, 11, 0.1); }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            margin-top: 4px;
+            width: 100%;
+            padding-bottom: 75%; /* Proporcje dla responsywności */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1.5rem;
         }
 
-        .tooltip {
-            visibility: hidden;
-            opacity: 0;
+        .calendar-container iframe {
             position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            padding: 12px;
-            background: #111;
-            border: 1px solid var(--accent);
-            border-radius: 12px;
-            z-index: 100;
-            transition: 0.3s;
-            pointer-events: none;
-            text-align: center;
-        }
-
-        .day-box:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(-5px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: invert(90%) hue-rotate(180deg) brightness(0.6) contrast(1.2); /* Efekt Dark Mode dla kalendarza Google */
         }
 
         .blob {
@@ -216,61 +190,16 @@
         <div class="max-w-5xl mx-auto" data-aos="fade-up">
             <h2 class="text-center text-4xl font-black mb-12 uppercase tracking-tight">Moja <span class="text-accent italic">Dostępność</span></h2>
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="glass-card p-6 rounded-2xl">
-                        <h3 class="text-accent font-black uppercase text-xs tracking-widest mb-4">Godziny pracy</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">Pn - Pt</span>
-                                <span class="font-mono">17:00 - 19:00</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-400">Sobota</span>
-                                <span class="font-mono">14:00 - 21:00</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-accent">Niedziela</span>
-                                <span class="font-mono">15:00 - 19:00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="glass-card p-6 rounded-2xl">
-                        <h3 class="text-gray-500 font-black uppercase text-[10px] tracking-widest mb-4">Legenda</h3>
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-2 h-2 rounded-full bg-[#FF4B4B]"></div>
-                            <span class="text-xs text-gray-400">Zajęty / Brak terminów</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-2 h-2 rounded-full bg-white/20"></div>
-                            <span class="text-xs text-gray-400">Wolny termin</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-2">
-                    <div class="glass-card rounded-3xl p-6 shadow-2xl">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 id="monthYear" class="font-black uppercase tracking-widest text-sm"></h3>
-                            <div class="flex gap-2">
-                                <button onclick="changeMonth(-1)" class="p-2 hover:text-accent transition"><i class="fas fa-chevron-left"></i></button>
-                                <button onclick="changeMonth(1)" class="p-2 hover:text-accent transition"><i class="fas fa-chevron-right"></i></button>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                            <div class="text-[10px] font-black text-gray-600">PN</div>
-                            <div class="text-[10px] font-black text-gray-600">WT</div>
-                            <div class="text-[10px] font-black text-gray-600">ŚR</div>
-                            <div class="text-[10px] font-black text-gray-600">CZ</div>
-                            <div class="text-[10px] font-black text-gray-600">PT</div>
-                            <div class="text-[10px] font-black text-gray-600">SO</div>
-                            <div class="text-[10px] font-black text-gray-600">ND</div>
-                        </div>
-                        <div id="calendarGrid" class="grid grid-cols-7 gap-1">
-                            </div>
-                    </div>
+            <div class="glass-card rounded-[2.5rem] p-4 shadow-2xl overflow-hidden border-accent/20">
+                <div class="calendar-container">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=f3536055f7351e43aba7294b428126295605b5777646136669b7d012f799e42f%40group.calendar.google.com&ctz=Europe%2FWarsaw&showTitle=0&showNav=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0" 
+                            style="border: 0" frameborder="0" scrolling="no"></iframe>
                 </div>
             </div>
+
+            <p class="text-center text-gray-500 text-xs mt-8 uppercase tracking-[0.2em]">
+                Kalendarz aktualizowany w czasie rzeczywistym.
+            </p>
         </div>
     </section>
 
@@ -341,58 +270,6 @@
     <script>
         AOS.init({ duration: 1000, once: true, easing: 'ease-out-quad' });
 
-        // --- KALENDARZ LOGIKA ---
-        let currentDate = new Date();
-        const months = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
-
-        async function renderCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            const monthYear = document.getElementById('monthYear');
-            grid.innerHTML = '';
-
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            monthYear.innerText = `${months[month]} ${year}`;
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const offset = firstDay === 0 ? 6 : firstDay - 1;
-
-            // Puste dni na początku
-            for (let i = 0; i < offset; i++) {
-                grid.innerHTML += `<div></div>`;
-            }
-
-            // Generowanie dni
-            for (let d = 1; d <= daysInMonth; d++) {
-                // Przykładowe daty zajęte dla demonstracji (sir, tutaj podłączymy API Google)
-                const isBusy = (d % 7 === 0 || d === 15 || d === 22); 
-                
-                grid.innerHTML += `
-                    <div class="day-box border border-white/5 rounded-lg">
-                        <span class="text-xs ${isBusy ? 'text-gray-600' : 'text-white'}">${d}</span>
-                        ${isBusy ? `
-                            <div class="status-dot bg-[#FF4B4B]"></div>
-                            <div class="tooltip">
-                                <p class="text-[10px] font-black text-red-500 uppercase mb-1">Brak wolnych miejsc</p>
-                                <p class="text-[11px] text-gray-400">Ten termin jest już zarezerwowany przez innego klienta.</p>
-                            </div>
-                        ` : `
-                            <div class="status-dot bg-white/10"></div>
-                        `}
-                    </div>
-                `;
-            }
-        }
-
-        function changeMonth(step) {
-            currentDate.setMonth(currentDate.getMonth() + step);
-            renderCalendar();
-        }
-
-        renderCalendar();
-
-        // --- FORMULARZ LOGIKA ---
         const form = document.getElementById('contact-form');
         const status = document.getElementById('form-status');
         const btn = document.getElementById('submit-btn');
