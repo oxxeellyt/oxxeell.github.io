@@ -51,10 +51,10 @@
         .calendar-container {
             position: relative;
             width: 100%;
-            padding-bottom: 75%; /* Proporcje dla responsywności */
+            padding-bottom: 85%;
             height: 0;
             overflow: hidden;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
         }
 
         .calendar-container iframe {
@@ -64,7 +64,7 @@
             width: 100%;
             height: 100%;
             border: 0;
-            filter: invert(90%) hue-rotate(180deg) brightness(0.6) contrast(1.2); /* Efekt Dark Mode dla kalendarza Google */
+            filter: invert(90%) hue-rotate(180deg) brightness(0.6) contrast(1.2);
         }
 
         .blob {
@@ -187,19 +187,57 @@
     </section>
 
     <section id="availability" class="py-32 px-8">
-        <div class="max-w-5xl mx-auto" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto" data-aos="fade-up">
             <h2 class="text-center text-4xl font-black mb-12 uppercase tracking-tight">Moja <span class="text-accent italic">Dostępność</span></h2>
             
-            <div class="glass-card rounded-[2.5rem] p-4 shadow-2xl overflow-hidden border-accent/20">
-                <div class="calendar-container">
-                    <iframe src="https://calendar.google.com/calendar/embed?src=f3536055f7351e43aba7294b428126295605b5777646136669b7d012f799e42f%40group.calendar.google.com&ctz=Europe%2FWarsaw&showTitle=0&showNav=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0" 
-                            style="border: 0" frameborder="0" scrolling="no"></iframe>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="glass-card p-6 rounded-3xl">
+                        <h3 class="text-accent font-black uppercase text-xs tracking-widest mb-4">Stałe godziny pracy</h3>
+                        <div class="space-y-4 text-sm">
+                            <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="text-gray-400">Pn - Pt</span>
+                                <span class="font-mono text-white">17:00 - 19:00</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="text-gray-400">Sobota</span>
+                                <span class="font-mono text-white">14:00 - 21:00</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="text-accent">Niedziela</span>
+                                <span class="font-mono text-accent">15:00 - 19:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-6 rounded-3xl border-l-4 border-accent">
+                        <h3 class="text-gray-500 font-black uppercase text-[10px] tracking-widest mb-4">Jak czytać kalendarz</h3>
+                        <div class="flex items-start gap-3 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-[#f59e0b] mt-1"></div>
+                            <div>
+                                <p class="text-xs font-bold text-white uppercase tracking-tighter">Zarezerwowane</p>
+                                <p class="text-[10px] text-gray-400">Termin niedostępny - realizacja innego projektu.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-3 h-3 rounded-full border border-white/30 mt-1"></div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Wolne okno</p>
+                                <p class="text-[10px] text-gray-500">Brak wpisu oznacza pełną dostępność w moich godzinach.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div class="glass-card rounded-[2rem] p-4 shadow-2xl border-white/5 overflow-hidden">
+                        <div class="calendar-container">
+                            <iframe src="https://calendar.google.com/calendar/embed?src=f3536055f7351e43aba7294b428126295605b5777646136669b7d012f799e42f%40group.calendar.google.com&ctz=Europe%2FWarsaw&showTitle=0&showNav=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0" 
+                                    style="border: 0" frameborder="0" scrolling="no"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <p class="text-center text-gray-500 text-xs mt-8 uppercase tracking-[0.2em]">
-                Kalendarz aktualizowany w czasie rzeczywistym.
-            </p>
         </div>
     </section>
 
